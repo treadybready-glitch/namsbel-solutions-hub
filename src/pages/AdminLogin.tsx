@@ -9,7 +9,6 @@ import { Lock, Mail, ArrowLeft } from "lucide-react";
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,23 +26,13 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-        });
-        if (error) throw error;
-        toast.success("Account created! You can now log in.");
-        setIsSignUp(false);
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
-        if (error) throw error;
-        toast.success("Welcome back!");
-        navigate("/admin/inquiries");
-      }
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (error) throw error;
+      toast.success("Welcome back!");
+      navigate("/admin/inquiries");
     } catch (error: any) {
       console.error("Auth error:", error);
       toast.error(error.message || "Authentication failed");
@@ -69,13 +58,9 @@ const AdminLogin = () => {
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <Lock className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="font-display text-2xl font-bold">
-              {isSignUp ? "Create Admin Account" : "Admin Login"}
-            </h1>
+            <h1 className="font-display text-2xl font-bold">Admin Login</h1>
             <p className="text-muted-foreground mt-2">
-              {isSignUp
-                ? "Set up your admin account"
-                : "Sign in to view inquiries"}
+              Sign in to view inquiries
             </p>
           </div>
 
@@ -128,25 +113,11 @@ const AdminLogin = () => {
             >
               {isLoading ? (
                 <span className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-              ) : isSignUp ? (
-                "Create Account"
               ) : (
                 "Sign In"
               )}
             </Button>
           </form>
-
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isSignUp
-                ? "Already have an account? Sign in"
-                : "Need an account? Sign up"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
