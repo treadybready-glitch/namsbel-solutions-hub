@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
   Trash2,
   Inbox,
   RefreshCw,
+  Bell,
 } from "lucide-react";
 
 interface Inquiry {
@@ -31,19 +32,7 @@ const AdminInquiries = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
 
-  useEffect(() => {
-    checkAuth();
-    fetchInquiries();
-  }, []);
-
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/admin");
-    }
-  };
-
-  const fetchInquiries = async () => {
+  const fetchInquiries = useCallback(async () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
@@ -59,7 +48,73 @@ const AdminInquiries = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (!session) {
+          navigate("/admin");
+        }
+      }
+    );
+
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        navigate("/admin");
+      } else {
+        fetchInquiries();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate, fetchInquiries]);
+
+  // Set up realtime subscription for new inquiries
+  useEffect(() => {
+    const channel = supabase
+      .channel('inquiries-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'inquiries',
+        },
+        (payload) => {
+          const newInquiry = payload.new as Inquiry;
+          setInquiries((prev) => [newInquiry, ...prev]);
+          
+          // Show notification for new inquiry
+          toast.success(
+            <div className="flex items-center gap-2">
+              <Bell className="w-4 h-4" />
+              <div>
+                <p className="font-medium">New inquiry from {newInquiry.name}</p>
+                <p className="text-sm text-muted-foreground">{newInquiry.email}</p>
+              </div>
+            </div>,
+            { duration: 5000 }
+          );
+          
+          // Play notification sound
+          try {
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleQUSUbvZ9sWcUQMKXMLe1bFvKQ+K0+rMmlwVHKXc56ZpLBuB0vS+kmglLI3P2q99UjBLhMff0K5dRz1cltjIj1tCT26ayrJ8WUFhnMbEiGNKTnKSyrd2V0RjlsG1fWNKT4GXzad4VEJolbu5dnNQUoqVzKJ6UkNsl8a9bHVRSo6YxZ5vST1lmsHAfHVQS4iTxaR8VEdmkcfFfnVNSIeXxaJ5U0VqkcTMhnVPVpWb0ptiT0hblcbSjlVGSHCYw5RXQEZtnsa0bEU8cJnHqmpCNlqbzLluRDZym8Goa088ZJq9lXJJSW6YwZ51SEFul7+wdEdFa5W8s35NSWCR0suNVD5QhL3FmGdMWJPDu4dQSFaKvcqOWUtdlsCyhU1DTIq/wZVbTleNv7uGUUtQirfBmF5LU4e3vodOSFGLu8SYVVN0qMzOiVRIWpTBtH5MQFGL07iFTkFVjMC9lllKU4y6tYBNP1WOwMWdXFBais3KiFFMXZbDtH5HPVCH1byFTkVdk8K8h1FJWY+8uIZLPFKMv8GZW1BajcS/iE9EWJDCvoZHO1OOxMCXVEtZksu/hkY9U4u/wJNUT2Gbyr2DRUBVYLXY15ZfQUFpnMS1fkU2aJq7rXFEPXWixbBwRDNtocO4dUI6dqHBp3dEQYGlxKt3RUiEo7+re0ZHgp+7p3tGRoegxah4Rj+Bn7mkckg/gqC4pXNIP4qnvqZuQjuGpLure0hFiqe7rXlIS46kt6p+REeQqsCmd0k7hanAtXNEOoSotbJ9R0qLqLexfkRHiaeys3xER4uotLV+P0WIqLO1f0FFjKmysnxFQIinsrV+QkCNqrSwf0NGiq2vsIBBRo6vrayCQEGOra2sgEBFia6xsnpDO4ytsLN/P0OKr7GzfD9Bja6wtn9CQoywsbZ9QT+Lr7G2e0E7jbKztnw+QI2zsrd+PT+NsrO3fz0/jrKzt30+P46zs7d/PT6Ps7S4fD0/jrS0t3w9Po60tbd8PD6OtLS3fDs+j7W1tn07O4+1trZ9Oz2Otba2fDs9jrS2t307PI+1trZ7Oz2Ptba1fDw7j7a2t3s7PI61trZ8OzyPtba2ezs8kLW2tXs7O4+2trZ7OzuPtra2ezs7kLa1tnw7O5C2trZ7OzuQtra2ezs7kLa2tns7O5C2trZ7OzuQtra2ezs7kLa2tns7O5C2trZ7Ozk=');
+            audio.volume = 0.3;
+            audio.play().catch(() => {});
+          } catch (e) {
+            // Audio play failed, ignore
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const markAsRead = async (id: string) => {
     try {
@@ -133,7 +188,7 @@ const AdminInquiries = () => {
             <div className="h-6 w-px bg-border" />
             <h1 className="font-display text-xl font-bold">Inquiries</h1>
             {unreadCount > 0 && (
-              <span className="bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded-full">
+              <span className="bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded-full animate-pulse">
                 {unreadCount} new
               </span>
             )}
@@ -185,7 +240,7 @@ const AdminInquiries = () => {
                       </p>
                     </div>
                     {!inquiry.is_read && (
-                      <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                      <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2 animate-pulse" />
                     )}
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
