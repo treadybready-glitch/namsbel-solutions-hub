@@ -106,12 +106,15 @@ const BlogPost = () => {
           <div className="max-w-4xl mx-auto">
             <article className="prose prose-lg prose-invert max-w-none
               prose-headings:font-display prose-headings:text-foreground prose-headings:font-bold
-              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-              prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6
+              prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8
+              prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6
+              prose-p:text-muted-foreground prose-p:leading-loose prose-p:mb-8
               prose-strong:text-primary prose-strong:font-semibold
-              prose-ul:text-muted-foreground prose-li:mb-2
+              prose-ul:text-muted-foreground prose-ul:space-y-4 prose-ul:my-8 prose-li:mb-3
+              prose-ol:text-muted-foreground prose-ol:space-y-4 prose-ol:my-8
               prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+              prose-blockquote:border-l-primary prose-blockquote:pl-6 prose-blockquote:my-8
+              [&>*+*]:mt-6
             ">
               <ReactMarkdown>{post.content}</ReactMarkdown>
             </article>
