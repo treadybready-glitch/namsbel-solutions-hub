@@ -31,9 +31,10 @@ const NewsletterForm = () => {
     setIsLoading(true);
 
     try {
+      // Using type assertion since types may not be regenerated yet
       const { error } = await supabase
-        .from("newsletter_subscribers")
-        .insert({ email: result.data });
+        .from("newsletter_subscribers" as any)
+        .insert({ email: result.data } as any);
 
       if (error) {
         if (error.code === "23505") {

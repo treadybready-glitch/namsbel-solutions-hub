@@ -3,6 +3,7 @@ import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { blogPosts } from "@/data/blogs";
 import ReactMarkdown from "react-markdown";
+import NewsletterForm from "@/components/NewsletterForm";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -159,6 +160,15 @@ const BlogPost = () => {
           </div>
         </section>
       )}
+
+      {/* Newsletter */}
+      <section className="py-16 border-t border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <NewsletterForm />
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="py-16 border-t border-border">
