@@ -1,11 +1,14 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
+    { label: "Team", href: "#team" },
+    { label: "Blog", href: "/blog", isRoute: true },
     { label: "Contact", href: "#contact" },
-    { label: "Privacy Policy", href: "#" },
   ];
 
   const scrollToSection = (href: string) => {
@@ -28,14 +31,24 @@ const Footer = () => {
 
           {/* Links */}
           <nav className="flex flex-wrap justify-center gap-6">
-            {footerLinks.map(({ label, href }) => (
-              <button
-                key={label}
-                onClick={() => scrollToSection(href)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {label}
-              </button>
+            {footerLinks.map(({ label, href, isRoute }) => (
+              isRoute ? (
+                <Link
+                  key={label}
+                  to={href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {label}
+                </Link>
+              ) : (
+                <button
+                  key={label}
+                  onClick={() => scrollToSection(href)}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {label}
+                </button>
+              )
             ))}
           </nav>
 

@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, Server, Shield } from "lucide-react";
+import { ArrowRight, Code, Server, Shield, BookOpen } from "lucide-react";
 
 const Hero = () => {
   const scrollToInquiry = () => {
@@ -37,6 +38,12 @@ const Hero = () => {
             <Button variant="heroOutline" size="xl" onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>
               Our Services
             </Button>
+            <Link to="/blog">
+              <Button variant="heroOutline" size="xl" className="w-full">
+                <BookOpen className="w-5 h-5" />
+                Read Blog
+              </Button>
+            </Link>
           </div>
 
           {/* Feature Pills */}
