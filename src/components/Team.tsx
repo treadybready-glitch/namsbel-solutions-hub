@@ -71,30 +71,30 @@ const Team = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4">
           {teamMembers.map((member, index) => (
             <div 
               key={member.name}
-              className="group relative bg-card rounded-2xl overflow-hidden border border-border hover-lift"
+              className="group relative bg-card rounded-xl overflow-hidden border border-border hover-lift"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Image */}
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="aspect-[3/4] overflow-hidden">
                 <img 
                   src={member.image} 
                   alt={member.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
               </div>
               
               {/* Info */}
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="font-display font-bold text-lg text-foreground mb-1">
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <h3 className="font-display font-bold text-sm text-foreground mb-0.5 truncate">
                   {member.name}
                 </h3>
-                <p className="text-primary text-sm font-medium">
+                <p className="text-primary text-xs font-medium truncate">
                   {member.role}
                 </p>
               </div>
