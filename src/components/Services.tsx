@@ -2,9 +2,9 @@ import {
   Code2, 
   Cloud, 
   Shield, 
-  BarChart3, 
-  Smartphone, 
-  Database,
+  Users, 
+  Briefcase, 
+  Layers,
   ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,33 +13,33 @@ const Services = () => {
   const services = [
     {
       icon: Code2,
-      title: "Custom Software Development",
-      description: "Tailored applications built to solve your unique business challenges with modern technologies.",
-    },
-    {
-      icon: Cloud,
-      title: "Cloud Solutions",
-      description: "Seamless cloud migration, architecture design, and optimization for scalable infrastructure.",
+      title: "IT Solutions",
+      description: "Managed IT Services, Cloud Solutions, Custom Software Development, and IT Consulting aligned with your business goals.",
     },
     {
       icon: Shield,
-      title: "Cybersecurity",
-      description: "Comprehensive security assessments, implementation, and ongoing protection strategies.",
+      title: "Cybersecurity Services",
+      description: "Network Security, Endpoint Protection, Incident Response, and Security Audits to safeguard your digital assets.",
     },
     {
-      icon: BarChart3,
-      title: "Data Analytics",
-      description: "Transform raw data into actionable insights with advanced analytics and visualization.",
+      icon: Layers,
+      title: "SAP Implementation",
+      description: "Expert SAP recruitment and execution, bridging skilled professionals with organizations enhancing SAP capabilities.",
     },
     {
-      icon: Smartphone,
-      title: "Mobile Development",
-      description: "Native and cross-platform mobile applications that deliver exceptional user experiences.",
+      icon: Users,
+      title: "Talent Scouting",
+      description: "Finding the right talent for your organization through our extensive network and industry expertise.",
     },
     {
-      icon: Database,
-      title: "Database Management",
-      description: "Design, optimization, and management of robust database solutions for your data needs.",
+      icon: Briefcase,
+      title: "HR Solutions",
+      description: "Comprehensive HR services including payroll processing, labor law compliance, and workforce management.",
+    },
+    {
+      icon: Cloud,
+      title: "ERP Solutions",
+      description: "End-to-end ERP implementation and support to streamline your business operations and drive efficiency.",
     },
   ];
 

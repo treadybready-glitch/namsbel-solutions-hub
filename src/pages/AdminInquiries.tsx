@@ -205,6 +205,26 @@ const AdminInquiries = () => {
         </div>
       </header>
 
+      {/* Admin Nav */}
+      <div className="border-b border-border bg-card/30">
+        <div className="container mx-auto px-6">
+          <nav className="flex gap-1">
+            <a
+              href="/admin/inquiries"
+              className="px-4 py-3 text-sm font-medium text-primary border-b-2 border-primary"
+            >
+              Inquiries
+            </a>
+            <a
+              href="/admin/newsletter"
+              className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Newsletter
+            </a>
+          </nav>
+        </div>
+      </div>
+
       <div className="container mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Inquiry List */}
