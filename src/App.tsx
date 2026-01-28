@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminInquiries from "./pages/AdminInquiries";
+import AdminNewsletter from "./pages/AdminNewsletter";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/inquiries" element={<AdminInquiries />} />
+          <Route path="/admin/newsletter" element={<AdminNewsletter />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

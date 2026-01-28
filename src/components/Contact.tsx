@@ -1,31 +1,32 @@
-import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Facebook } from "lucide-react";
 
 const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "hello@namsbel.com",
-      href: "mailto:hello@namsbel.com",
+      value: "info@namsbel.com",
+      href: "mailto:info@namsbel.com",
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 9591987136",
-      href: "tel:+919591987136",
+      value: "080 3569 4300 / 4313",
+      href: "tel:+918035694300",
     },
     {
       icon: MapPin,
-      label: "Location",
-      value: "Available Worldwide",
+      label: "Headquarters",
+      value: "Bangalore, India",
       href: null,
     },
   ];
 
   const socialLinks = [
-    { icon: Linkedin, label: "LinkedIn", href: "#" },
-    { icon: Twitter, label: "Twitter", href: "#" },
-    { icon: Github, label: "GitHub", href: "#" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/namsbel-consulting/" },
+    { icon: Twitter, label: "Twitter", href: "https://twitter.com/namsbel" },
+    { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/namsbel_global/" },
+    { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/namsbelglobal" },
   ];
 
   return (
