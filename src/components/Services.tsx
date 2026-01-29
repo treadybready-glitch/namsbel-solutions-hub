@@ -8,6 +8,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const services = [
@@ -15,31 +16,37 @@ const Services = () => {
       icon: Code2,
       title: "IT Solutions",
       description: "Managed IT Services, Cloud Solutions, Custom Software Development, and IT Consulting aligned with your business goals.",
+      link: "/it-solutions",
     },
     {
       icon: Shield,
       title: "Cybersecurity Services",
       description: "Network Security, Endpoint Protection, Incident Response, and Security Audits to safeguard your digital assets.",
+      link: "/cyber-security",
     },
     {
       icon: Layers,
       title: "SAP Implementation",
       description: "Expert SAP recruitment and execution, bridging skilled professionals with organizations enhancing SAP capabilities.",
+      link: "/sap-services",
     },
     {
       icon: Users,
       title: "Talent Scouting",
       description: "Finding the right talent for your organization through our extensive network and industry expertise.",
+      link: "/talent-scouting",
     },
     {
       icon: Briefcase,
       title: "HR Solutions",
       description: "Comprehensive HR services including payroll processing, labor law compliance, and workforce management.",
+      link: "/hr-solutions",
     },
     {
       icon: Cloud,
       title: "ERP Solutions",
       description: "End-to-end ERP implementation and support to streamline your business operations and drive efficiency.",
+      link: "/sap-services",
     },
   ];
 
@@ -62,10 +69,11 @@ const Services = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map(({ icon: Icon, title, description }) => (
-            <div 
+          {services.map(({ icon: Icon, title, description, link }) => (
+            <Link 
+              to={link}
               key={title}
-              className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover-lift cursor-pointer"
+              className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover-lift cursor-pointer block"
             >
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-all duration-300">
                 <Icon className="w-7 h-7 text-primary" />
@@ -78,7 +86,7 @@ const Services = () => {
                 <span className="text-sm font-medium">Learn more</span>
                 <ArrowRight className="w-4 h-4" />
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
