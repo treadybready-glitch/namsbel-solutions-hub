@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 // Store home page scroll position
@@ -8,7 +8,8 @@ export const useScrollRestoration = () => {
   const { pathname } = useLocation();
   const previousPath = useRef<string | null>(null);
 
-  useEffect(() => {
+  // Use useLayoutEffect to scroll before browser paint
+  useLayoutEffect(() => {
     // Save scroll position when leaving home page
     if (previousPath.current === "/" && pathname !== "/") {
       homeScrollPosition = window.scrollY;
@@ -18,11 +19,11 @@ export const useScrollRestoration = () => {
     if (pathname === "/") {
       // Returning to home - restore previous position
       if (previousPath.current !== null && previousPath.current !== "/") {
-        window.scrollTo(0, homeScrollPosition);
+        setTimeout(() => window.scrollTo(0, homeScrollPosition), 0);
       }
     } else {
-      // Any other page - scroll to top
-      window.scrollTo(0, 0);
+      // Any other page - scroll to top immediately
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
 
     previousPath.current = pathname;
