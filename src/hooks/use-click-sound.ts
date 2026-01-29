@@ -7,7 +7,7 @@ export const useClickSound = () => {
   const playClick = useCallback(() => {
     try {
       const audio = new Audio(CLICK_SOUND);
-      audio.volume = 0.15; // Very subtle
+      audio.volume = 0.35; // Slightly louder click
       audio.play().catch(() => {
         // Ignore autoplay restrictions
       });
@@ -23,7 +23,7 @@ export const useClickSound = () => {
 export const playClickSound = () => {
   try {
     const audio = new Audio(CLICK_SOUND);
-    audio.volume = 0.15;
+    audio.volume = 0.35;
     audio.play().catch(() => {});
   } catch {
     // Audio not supported

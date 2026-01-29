@@ -16,8 +16,15 @@ import SAPServices from "./pages/SAPServices";
 import HRSolutions from "./pages/HRSolutions";
 import TalentScouting from "./pages/TalentScouting";
 import AboutUs from "./pages/AboutUs";
+import { useScrollRestoration } from "./hooks/use-scroll-restoration";
 
 const queryClient = new QueryClient();
+
+// Scroll restoration component
+const ScrollRestoration = () => {
+  useScrollRestoration();
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -25,6 +32,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollRestoration />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
